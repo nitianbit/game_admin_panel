@@ -3,7 +3,7 @@ import { STORAGE_KEYS, getValue } from '../Storage';
 import { API_METHODS } from './constants';
 
 const api = axios.create({
-    baseURL: '/',
+    baseURL: 'http://localhost:4000/api',
     timeout: 10000,
 });
 
@@ -13,15 +13,20 @@ const apiHandler = async (endPoint, method, data = null) => {
         const response = await api({
             method: method,
             url: endPoint,
-            ...([API_METHODS.GET].includes(method) && { data: data }),
+            ...(![API_METHODS.GET].includes(method) && { data: data }),
             headers: {
-                Authorization: getValue(STORAGE_KEYS.TOKEN)
+                Authorization: getValue(STORAGE_KEYS.TOKEN),
+                "x-api-key": "web"
             }
         });
 
         return response.data;
     } catch (error) {
         //handle 401 here
+        if (error?.response?.status == 401) {
+            localStorage.clear()
+            window.location.pathname = "/"
+        }
         if (error.response) {
             console.error('Response Error:', error.response.data);
             throw new Error(error.response.data.message || 'Something went wrong');

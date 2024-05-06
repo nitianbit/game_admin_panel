@@ -1,90 +1,30 @@
 import React from 'react';
 import { MdDashboard } from "react-icons/md";
+import { FaUser } from "react-icons/fa";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
 import './style.css'
+import { Link } from 'react-router-dom';
 
 function Sidebar() {
     return (
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 text-grey shadow-sm">
-        <div className="d-flex flex-column align-items-center align-items-sm-start  pt-2  min-vh-100">
-            <a href="/" className="d-flex w-100 align-items-center px-3 pb-3  shadow-sm  text-decoration-none ">
-                <span className="fs-5 d-none d-sm-inline text-grey">Menu</span>
-            </a>
-            <ul className="px-3 nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                <li className="nav-item">
-                    <a href="#" className="nav-link align-middle px-0">
-                        <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline text-grey">Home</span>
-                    </a>
-                </li>
+            <div className="d-flex flex-column align-items-center align-items-sm-start  pt-2  min-vh-100">
+                <Link href="/" className="d-flex w-100 align-items-center px-3 pb-3  shadow-sm  text-decoration-none ">
+                    <span className="fs-5 d-none d-sm-inline text-grey">Menu</span>
+                </Link>
+                <ul className="px-3 nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <Link to="/users" className="nav-link align-middle px-0">
+                        <FaUser className='text-grey' /><i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline text-grey">Users</span>
+                    </Link>
+                    <Link to="/dashboard" className="nav-link px-0 align-middle  text-grey">
+                        <MdDashboard className='text-grey' /> <span className="ms-1 d-none d-sm-inline text-grey">Dashboard</span> </Link>
 
-                <li>
-                    <a href="#submenu1" data-bs-toggle="collapse" className="nav-link px-0 align-middle dropdown-toggle text-grey">
-                       <MdDashboard className='text-grey'/> <span className="ms-1 d-none d-sm-inline text-grey">Dashboard</span> </a>
-                    <ul className="collapse show nav flex-column ms-1 text-grey" id="submenu1" data-bs-parent="#menu">
-                        <li className="w-100">
-                            <a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline text-grey">Item</span>  </a>
-                        </li>
-                        <li>
-                            <a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline text-grey">Item</span> </a>
-                        </li>
-                    </ul>
-                </li>
-                {/* <li>
-                    <a href="#" className="nav-link px-0 align-middle">
-                        <i className="fs-4 bi-table"></i> <span className="ms-1 d-none d-sm-inline">Orders</span></a>
-                </li>
-                <li>
-                    <a href="#submenu2" data-bs-toggle="collapse" className="nav-link px-0 align-middle ">
-                        <i className="fs-4 bi-bootstrap"></i> <span className="ms-1 d-none d-sm-inline">Bootstrap</span></a>
-                    <ul className="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
-                        <li className="w-100">
-                            <a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline">Item</span> 1</a>
-                        </li>
-                        <li>
-                            <a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline">Item</span> 2</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#submenu3" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
-                        <i className="fs-4 bi-grid"></i> <span className="ms-1 d-none d-sm-inline">Products</span> </a>
-                    <ul className="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
-                        <li className="w-100">
-                            <a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline">Product</span> 1</a>
-                        </li>
-                        <li>
-                            <a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline">Product</span> 2</a>
-                        </li>
-                        <li>
-                            <a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline">Product</span> 3</a>
-                        </li>
-                        <li>
-                            <a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline">Product</span> 4</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" className="nav-link px-0 align-middle">
-                        <i className="fs-4 bi-people"></i> <span className="ms-1 d-none d-sm-inline">Customers</span> </a>
-                </li> */}
-            </ul>
-            <hr />
-            <div className="dropdown pb-4">
-                <a href="#" className="d-flex align-items-center  text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" className="rounded-circle" />
-                    <span className="d-none d-sm-inline mx-1 text-grey">loser</span>
-                </a>
-                <ul className="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                    <li><a className="dropdown-item" href="#">New project...</a></li>
-                    <li><a className="dropdown-item" href="#">Settings</a></li>
-                    <li><a className="dropdown-item" href="#">Profile</a></li>
-                    <li>
-                        <hr className="dropdown-divider" />
-                    </li>
-                    <li><a className="dropdown-item" href="#">Sign out</a></li>
+                    <Link to="/paymentRequest" className="nav-link px-0 align-middle  text-grey">
+                        <FaMoneyBillTransfer className='text-grey' /> <span className="ms-1 d-none d-sm-inline text-grey">Payment Request</span> </Link>
                 </ul>
+                <hr />
             </div>
         </div>
-    </div>
     );
 }
 

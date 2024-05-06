@@ -8,9 +8,8 @@ import './style.css'
 const Layout = () => {
     const { isLoggedIn } = useContext(AppContext);
 
-    console.log(isLoggedIn)
 
-    return !isLoggedIn ?
+    return isLoggedIn ?
         <div className='d-flex '>
             <SideBar />
             <div className="flex-1">

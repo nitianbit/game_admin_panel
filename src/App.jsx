@@ -4,8 +4,6 @@ import { authRoutes, protectedRoutes } from './routes'
 import Layout from './components/Routes/Layout'
 
 
-
-
 function App() {
 
   return (

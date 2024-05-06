@@ -1,0 +1,12 @@
+.dot {
+    /* height: 25px; */
+    width: 25px;
+    aspect-ratio: 1;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
