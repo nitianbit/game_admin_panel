@@ -17,10 +17,11 @@ function Sidebar() {
                         <FaUser className='text-grey' /><i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline text-grey">Users</span>
                     </Link>
                     <Link to="/dashboard" className="nav-link px-0 align-middle  text-grey">
-                        <MdDashboard className='text-grey' /> <span className="ms-1 d-none d-sm-inline text-grey">Dashboard</span> </Link>
-
-                    <Link to="/paymentRequest" className="nav-link px-0 align-middle  text-grey">
-                        <FaMoneyBillTransfer className='text-grey' /> <span className="ms-1 d-none d-sm-inline text-grey">Payment Request</span> </Link>
+                        <MdDashboard className='text-grey' /> <span className="ms-1 d-none d-sm-inline text-grey">Dashboard</span>
+                    </Link>
+                    <Link to="/fields" className="nav-link align-middle px-0">
+                        <FaUser className='text-grey' /><i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline text-grey">Fields</span>
+                    </Link>
                 </ul>
                 <hr />
             </div>

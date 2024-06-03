@@ -8,7 +8,7 @@ export const AppContext = createContext("");
 
 export const AppProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     const success = (message) => {
         return toast.success(message);
