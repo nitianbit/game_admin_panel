@@ -6,8 +6,11 @@ const EditFieldContent = ({ userData, setUserData }) => {
 
     useEffect(() => {
         // Update userData when options change
-        setUserData(prevData => ({ ...prevData, options }));
-    }, [options, setUserData]);
+        // console.log(userData);
+        // setUserData(prevData => ({ ...prevData, options }));
+        const updatedData = { ...userData, options }
+        setUserData(updatedData);
+    }, [options]);
 
     const updateData = (key, value) => setUserData({ [key]: value })
 

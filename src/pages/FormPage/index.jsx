@@ -8,20 +8,20 @@ const Field = () => {
 
     const [users, setUsers] = useState()
 
-    const getAllFields = async (e) => {
+    const getAllForms = async (e) => {
         try {
-            const response = await doGET(ENDPOINTS.getFields);
+            const response = await doGET(ENDPOINTS.getForms);
             setUsers(response)
         } catch (error) { }
     };
 
     useEffect(() => {
-        getAllFields()
+        getAllForms()
     }, [])
 
     return (
         <div className='d-flex w-100'>
-            <FieldTable getAllFields={getAllFields} tableData={users} />
+            <FieldTable getAllForms={getAllForms} tableData={users} />
         </div>
     )
 }

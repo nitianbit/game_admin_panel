@@ -12,7 +12,7 @@ const UsersTable = ({ tableData, getAllUsers }) => {
 
   const { success, error } = useContext(AppContext)
 
-  const [data, setData] = useState(tableData?.rows);
+  const [data, setData] = useState(tableData);
   const [loading, setLoading] = useState(false)
   const [deleteUserId, setDeleteUserId] = useState(null)
   const [editState, setEditState] = useState({
@@ -85,7 +85,8 @@ const UsersTable = ({ tableData, getAllUsers }) => {
   }
 
   useEffect(() => {
-    setData(tableData?.rows)
+    setData(tableData)
+    console.log(tableData);
   }, [tableData])
 
 
