@@ -3,7 +3,7 @@ import { STORAGE_KEYS, getValue } from '../Storage';
 import { API_METHODS } from './constants';
 
 const api = axios.create({
-    baseURL: 'http://localhost:4000/api',
+    baseURL: 'http://localhost:5400/api',
     timeout: 10000,
 });
 
@@ -23,10 +23,10 @@ const apiHandler = async (endPoint, method, data = null) => {
         return response.data;
     } catch (error) {
         //handle 401 here
-        if (error?.response?.status == 401) {
-            localStorage.clear()
-            window.location.pathname = "/"
-        }
+        /*  if (error?.response?.status == 401) {
+             localStorage.clear()
+             window.location.pathname = "/"
+         } */
         if (error.response) {
             console.error('Response Error:', error.response.data);
             throw new Error(error.response.data.message || 'Something went wrong');

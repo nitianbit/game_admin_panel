@@ -1,58 +1,63 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { MdEdit, MdDelete } from "react-icons/md";
-import { doDELETE, doPOST, doPUT } from '../../utils/HttpUtil';
+import { BsFillEyeFill } from "react-icons/bs";
+import { BsFillEyeSlashFill } from "react-icons/bs";
 import Modal from '../Modal/Modal';
+import EditUserContent from '../Modal/EditUserContent';
+import { ENDPOINTS } from '../../pages/FieldPage/Constant';
+import { doDELETE, doPOST, doPUT } from '../../utils/HttpUtil';
 import { AppContext } from '../../services/context/AppContext';
-import EditPayoutContent from '../Modal/EditPayoutContent';
-import { ENDPOINTS } from '../../pages/PaymentRequest/PaymentRequestConstant';
+import EditFieldContent from '../Modal/FieldsModal';
 
-const PaymentRequestTable = ({ tableData, getAllPayouts }) => {
+const FieldTable = ({ tableData, getAllFields }) => {
 
     const { success, error } = useContext(AppContext)
 
     const [data, setData] = useState(tableData?.rows);
     const [loading, setLoading] = useState(false)
-    const [deletePayoutId, setDeletePayoutId] = useState(null)
+    const [addField, setAddField] = useState(false)
+    const [deleteFieldId, setDeleteFieldId] = useState(null)
     const [editState, setEditState] = useState({
         isModalOpen: false,
-        selectedPayout: null
+        selectedField: null
     })
 
-    const updateData = (updatedObj) => setEditState(prev => ({
-        ...prev,
-        selectedPayout: {
-            ...prev.selectedPayout,
-            ...updatedObj
-        }
-    }))
     const handleUpdateData = async () => {
         try {
             setLoading(true)
-            const updatedData = { ...editState?.selectedPayout, status: editState?.selectedPayout?.status ? 1 : 0 };
-            updateData(updatedData)
-            await doPUT(ENDPOINTS.updatePayout(editState.selectedPayout?._id), updatedData)
+            if (!editState.selectedField?._id) {
+                await doPOST(ENDPOINTS.addField, editState.selectedField)
+            } else {
+                await doPUT(ENDPOINTS.updateField(editState.selectedField?._id), editState.selectedField)
+            }
             setEditState({
                 isModalOpen: false,
-                selectedPayout: null
+                selectedField: null
             })
-            getAllPayouts()
-            success("Payout Updated Successfully")
+            getAllFields()
+            success("Field Updated Successfully")
         } catch (e) {
-            error(e?.message ?? "Server Error")
+            error("Server error")
         } finally {
             setLoading(false)
 
         }
     }
 
+    const updateData = (updatedObj) => setEditState(prev => ({
+        ...prev,
+        selectedField: {
+            ...prev.selectedField,
+            ...updatedObj
+        }
+    }))
 
 
-
-    const openModal = (selectedPayout) => {
+    const openModal = (selectedField) => {
         setEditState(prev => ({
             ...prev,
             isModalOpen: true,
-            selectedPayout
+            selectedField
         }));
     };
 
@@ -61,67 +66,63 @@ const PaymentRequestTable = ({ tableData, getAllPayouts }) => {
         setEditState(prev => ({
             ...prev,
             isModalOpen: false,
-            selectedPayout: null
+            selectedField: null
         }));
     };
 
-    // const deletePayout = async () => {
-    //     try {
-    //         setLoading(true)
-    //         const response = await doDELETE(ENDPOINTS.deletePayout(deletePayoutId))
-    //         setDeletePayoutId(null)
-    //         getAllPayouts()
-    //         success("Payout deleted Successfully")
-    //     } catch (error) {
-    //         error("server error")
+    const deleteField = async () => {
+        try {
+            setLoading(true)
+            const response = await doDELETE(ENDPOINTS.deleteField(deleteFieldId))
+            setDeleteFieldId(null)
+            getAllFields()
+            success("Field deleted Successfully")
+        } catch (error) {
+            error("server error")
 
-    //     }
-    //     finally {
-    //         setLoading(false)
-    //     }
-    // }
+        }
+        finally {
+            setLoading(false)
+        }
+    }
 
-    // const closeDeleteModal = () => {
-    //     setDeletePayoutId(null)
-    // }
+    const closeDeleteModal = () => {
+        setDeleteFieldId(null)
+    }
 
     useEffect(() => {
-        setData(tableData?.rows)
+        setData(tableData)
     }, [tableData])
 
-
     return (
-        <>
-            <div className="container shadow-sm bg-white p-2">
+        <div >
+            <button onClick={(e) => {
+                openModal(true);
+            }} className="btn btn-primary" type="submit">Add field</button>
+            <div className="container shadow-sm bg-white p-2 w-100">
                 <div className="table-wrapper">
                     <table className="table">
                         <thead style={{ fontWeight: 600 }}>
                             <tr>
                                 <th className='font-weight-600' scope="col">#</th>
                                 <th className='font-weight-600' scope="col">Name</th>
-                                <th className='font-weight-600' scope="col">Amount</th>
-                                <th className='font-weight-600' scope="col">Status</th>
-                                <th className='font-weight-600' scope="col">Upi ID</th>
-                                <th className='font-weight-600' scope="col">Action</th>
+                                <th className='font-weight-600' scope="col">Type</th>
+                                <th className='font-weight-600' scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody className='text-grey'>
                             {data?.map((row, index) => (
                                 <tr key={row?.id}>
                                     <th scope="row">{index + 1}</th>
-                                    <td>{row.userId?.name}</td>
-                                    <td>{row.amount}</td>
-                                    <td>{row.status ? "Completed" : "Initiated"}</td>
+                                    <td>{row.label}</td>
+                                    <td>{row.type}</td>
                                     <td>
-                                        {row?.userId?.UPI_ID ?? "--"}
-                                    </td>
-                                    <td>
-                                        {!row.status && <MdEdit onClick={() => {
+                                        <MdEdit onClick={() => {
                                             openModal(row)
-                                        }} className='cursor-pointer' color='#8296EE' />}
-                                        {/* <MdDelete onClick={() => {
-                                            setDeleteUserId(row?._id)
-                                        }} className='cursor-pointer' color='red' /> */}
+                                        }} className='cursor-pointer' color='#8296EE' />
+                                        <MdDelete onClick={() => {
+                                            setDeleteFieldId(row?._id)
+                                        }} className='cursor-pointer' color='red' />
                                     </td>
                                 </tr>
                             ))}
@@ -146,29 +147,39 @@ const PaymentRequestTable = ({ tableData, getAllPayouts }) => {
                         </ul>
                     </div>
                 </div>
+
             </div>
             {editState?.isModalOpen &&
                 <Modal
-                    header="Edit Payout"
+                    header="Edit Field"
                     onSave={handleUpdateData}
                     content={
-                        <EditPayoutContent
-                            payoutData={editState?.selectedPayout}
-                            setPayoutData={updateData}
+                        <EditFieldContent
+                            userData={editState?.selectedField}
+                            setUserData={updateData}
                         />}
                     isOpen={editState?.isModalOpen}
                     onClose={closeEditModal} />}
+            {/* {addField && <Modal
+                header="Edit Field"
+                onSave={handleUpdateData}
+                content={
+                    <EditFieldContent
+                        userData={editState?.selectedField}
+                        setUserData={updateData}
+                    />}
+                isOpen={editState?.isModalOpen}
+                onClose={closeEditModal} />} */}
 
-            {/* {deletePayoutId && <Modal
-                header="Delete Payout"
-                onSave={deletePayout}
-                content="Are You Sure you want to delete this payout?"
-                isOpen={deletePayoutId ? true : false}
+            {deleteFieldId && <Modal
+                header="Delete Field"
+                onSave={deleteField}
+                content="Are You Sure you want to delete this Field?"
+                isOpen={deleteFieldId ? true : false}
                 onClose={closeDeleteModal} />
-            } */}
-
-        </>
+            }
+        </div>
     );
 };
 
-export default PaymentRequestTable;
+export default FieldTable;

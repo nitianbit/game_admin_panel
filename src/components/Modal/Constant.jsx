@@ -1,0 +1,1 @@
+export const FieldTypeConstants = ["checkbox", "number", "radio", "text", "select", "textarea"]
